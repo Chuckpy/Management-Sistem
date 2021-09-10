@@ -5,6 +5,8 @@ from .forms import ProductForm, OrderForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .decorators import auth_users, allowed_users
+from django.views.generic.edit import UpdateView
+
 # Create your views here.
 
 
@@ -109,23 +111,27 @@ def customer_detail(request, pk):
     }
     return render(request, 'dashboard/customers_detail.html', context)
 
-
+# TODO:
 # @login_required(login_url='user-login')
 # @allowed_users(allowed_roles=['Admin'])
-def product_edit(request, pk):
-    item = Product.objects.get(id=pk)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard-products')
-    else:
-        form = ProductForm(instance=item)
-    context = {
-        'form': form,
-    }
-    return render(request, 'dashboard/products_edit.html', context)
+# def product_edit(request, pk):
+#     item = Product.objects.get(id=pk)
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST, instance=item)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('dashboard-products')
+#     else:
+#         form = ProductForm(instance=item)
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'dashboard/products_edit.html', context)
 
+class ProductUpdateForm(UpdateView):
+    model = Product
+    fields = ['name', 'category','description', 'reference_code', 'price', 'quantity', 'image', 'is_available']
+    template_name_suffix = 'products_edit'
 
 # @login_required(login_url='user-login')
 # @allowed_users(allowed_roles=['Admin'])

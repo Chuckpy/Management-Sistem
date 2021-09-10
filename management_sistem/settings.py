@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',    
     # Apps de terceiros :
+    'crispy_forms',
     'debug_toolbar',
     
 ]
@@ -122,6 +123,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# User :
+LOGIN_REDIRECT_URL = ("../")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

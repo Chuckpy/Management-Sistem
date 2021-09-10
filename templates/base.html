@@ -39,10 +39,10 @@
                             <a href="" class="nav-link lead mr-4 font-weight-bold">Entre em contato</a>
                         </li>    
                         <li> 
-                            <a href="" class="nav-link lead mr-4 font-weight-bold">Teste</a>
+                            <a href="" class="nav-link lead mr-4 font-weight-bold">Aba</a>
                         </li>
                         <li> 
-                            <a href="" class="nav-link lead mr-4 font-weight-bold">Teste</i></a>
+                            <a href="" class="nav-link lead mr-4 font-weight-bold">{{ user.username }}</i></a>
                         </li>                    
                     </ul>  
                 </div>                                            
@@ -135,8 +135,10 @@
 
     {% block content %}
     {% endblock content %}
+
     <!-- Scripts content that run for all pages -->
-     <!-- JQuery -->
+
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
     crossorigin="anonymous"></script>
@@ -152,6 +154,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- My Js -->
     <script src="{% static 'js/index.js'%}"></script>
+
     {% block script %}
 
     {% endblock script %}
