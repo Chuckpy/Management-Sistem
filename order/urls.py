@@ -1,10 +1,11 @@
+from order.models import Sale
 from django.urls import path
 
+from .views import SaleListView, SaleDetailView
+
+app_name= 'order'
+
 urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('users/', include("user.urls")),
-#     path('ordens', include("order.urls")),
-#     path('produtos/', include("product.urls")),
-#     path('', include("dashboard.urls")),
-#     path('__debug__/', include(debug_toolbar.urls)),
+    path('lista/', SaleListView.as_view(), name='list'),
+    path('<slug:slug>/', SaleDetailView.as_view(), name='detail'),
 ]

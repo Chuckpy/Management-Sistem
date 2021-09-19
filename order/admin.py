@@ -8,20 +8,20 @@ class SaleItemInLine(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Dados da Ordem', {
-            'fields':('sale', 'reference_code', 'internal_code', 'customer')
+            'fields':('sale', 'reference_code', 'internal_code', 'customer','slug',)
             }),
         ('Preços e Serviços',{
-            'fields': ('price', 'description','description_2')
+            'fields': ('price', 'description','description_2',)
         })
     )
     list_display=('sale', 'customer', 'price', 'date')
 
 class SaleAdmin(admin.ModelAdmin):
     readonly_fields = ('price',)
-    fields=('reference_code', 'customer', 'discount', 'price')
+    fields=('reference_code', 'customer', 'discount','status', 'price')
     list_filter=('price','discount','date')
     # raw_id_fields = ('customer')
-    list_display = ('id', 'customer', 'date','discount','price','nfe','date' ) #get_total
+    list_display = ('customer', 'date','discount','price','nfe','date' ) #get_total
     search_fields = ('id', 'customer_first_name')
     actions = [nfe_nao_emitida,nfe_emitida]
     inlines = [SaleItemInLine]

@@ -2,6 +2,8 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from user import views as user_views
 
+app_name = 'user'
+
 urlpatterns = [
     # Login
     path('login', auth_views.LoginView.as_view(
@@ -12,7 +14,8 @@ urlpatterns = [
     # Cadastro
     path('register/', user_views.register, name='user-register'),
     # Perfil
-    path('profile/', user_views.profile, name='user-profile'),
+    path('perfil/', user_views.profile, name='profile'),
+    
     path('profile/update/', user_views.profile_update,
          name='user-profile-update'),    
 ]

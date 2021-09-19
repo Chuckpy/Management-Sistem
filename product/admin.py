@@ -13,7 +13,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter= ('id', 'category', 'price')
     list_display = ('id','image', 'name','description','price' ) 
     search_fields = ('id', 'name', 'reference_code', 'internal_code')
-    auto_complete_fields = ('name',)
     
 # Register your models here.
 admin.site.register(Product, ProductAdmin)
