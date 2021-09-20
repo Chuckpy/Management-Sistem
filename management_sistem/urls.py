@@ -22,10 +22,16 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include("user.urls")),
+    path('usuarios/', include("user.urls")),
+    path('ordens/', include("order.urls")),
+    path('produtos/', include("product.urls")),
     path('', include("dashboard.urls")),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = 'Sistema de Gestão'
+admin.site.index_title= 'Administração'
+admin.site.site_title = 'Seja bem vindo a gestão de produtos e serviços'

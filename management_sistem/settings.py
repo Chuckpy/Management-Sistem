@@ -32,8 +32,11 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Meus apps :
-    'pages.apps.PagesConfig',
-    'user.apps.UserConfig',    
+    # 'pages.apps.PagesConfig',
+    'task.apps.TaskConfig',
+    'user.apps.UserConfig',
+    'product.apps.ProductConfig',
+    'order.apps.OrderConfig',    
     'dashboard.apps.DashboardConfig',
     # Django apps :
     'django.contrib.admin',
@@ -151,3 +154,6 @@ INTERNAL_IPS = [
     '127.0.0.1',    
     ]
     
+# Cart
+
+CART_ITEM_MAX_QUANTITY = 10
