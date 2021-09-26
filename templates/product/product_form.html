@@ -1,0 +1,19 @@
+{% extends "base.html"%}
+{% block title %}Criação{%endblock title%}
+{%block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="app-wrapper">	    
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+            <h1 class="app-page-title">Criar novo Produto </h1>
+            <form method="post">{% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Salvar">
+            </form>
+        </div><!--//container-fluid-->
+    </div><!--//app-content-->	    
+</div><!--//app-wrapper-->  
+
+{% endblock content%}

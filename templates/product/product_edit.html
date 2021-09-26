@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Edição do produto{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="app-wrapper">	    
+	    <div class="app-content pt-3 p-md-3 p-lg-4">
+		    <div class="container-xl">			    
+			    <h1 class="app-page-title">Produto : {{product.name}} </h1> 
+                <div class="row col-10">
+                    <div class="row my-4">
+                        <div class="col-md-6 offset-md-3 p-3 bg-white">
+                            <h3>Formulário do Produto</h3>
+                            <hr>
+                            <form method="post">{% csrf_token %}
+                                {{ form|crispy }}
+                                <input type="submit" value="Atualizar">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div><!--//container-fluid-->
+    </div><!--//app-content-->	    
+</div><!--//app-wrapper-->  
+{% endblock %}

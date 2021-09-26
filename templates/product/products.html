@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Página de Produtos{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="app-wrapper">	    
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">			    
+            <h1 class="app-page-title">Produtos </h1>
+                <div class="row my-4">
+                    <div class="col-md-4">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        <div class="card card-body">
+                            <h5 ><a href='{% url 'product:create'%}'>Adicionar novos Produtos</a></h5>
+                            <hr>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <input class="btn btn-success btn-block" type="submit" value="Add">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <table class="table bg-white">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Descrição</th>
+                                    <th scope="col">Preço ($)</th>
+                                    <th scope="col">Atividades</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in product %}
+                                <tr>
+                                    <td><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></td>
+                                    <td>{{ product.description|truncatewords:2 }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-sm mr-2"
+                                            href="{% url 'product:update' product.slug %}"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-danger btn-sm ml-2"
+                                            href="{% url 'product:delete' product.id %}"><i class="fas fa-times"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!--//container-fluid-->
+	    </div><!--//app-content-->	    
+    </div><!--//app-wrapper-->  
+
+{% endblock %}

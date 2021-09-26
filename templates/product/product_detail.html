@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Detalhes dos Produtos{% endblock %}
+{% block content %}
+
+<div class="app-wrapper">	    
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+            <div class="row my-4">
+                <div class="col-md-6 offset-md-3 p-3 bg-white">
+                    <h3>{{ product.name }}</h3><hr>
+                    <h4>Categoria(s) : {% for cat in product.category.all %}{{cat.name}}{%endfor%} </h4>
+                    <hr>
+                    <h4>Descrição : {{product.description}}</h4>
+                    <h4>Código de referência : {{product.reference_code}}</h4>
+                    <h4>Preço : R$ {{product.price}}</h4>
+                </div>
+            </div>
+        </div><!--//container-fluid-->
+    </div><!--//app-content-->	    
+</div><!--//app-wrapper-->  
+{% endblock %}

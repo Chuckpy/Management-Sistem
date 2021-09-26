@@ -4,8 +4,7 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 
-<div class="app-wrapper">
-	    
+<div class="app-wrapper">	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
 			    <h1 class="app-page-title">Visão Geral </h1>  
@@ -119,39 +118,42 @@
 						        <h4 class="app-card-title">Gráfico Linha {{month_sum|safe}}</h4>
 					        </div><!--//app-card-header-->
 					        <div class="app-card-body p-4">					   
-						        <div class="chart-container">{{data}}/{{labels}}
-				                    <canvas id="myChart" width="400" height="400"></canvas>
-										<script>
-										var ctx = document.getElementById('myChart').getContext('2d');
-										var myChart = new Chart(ctx, {
+						        <div class="chart-container">									
+				                    <canvas id="myChart1" width="400" height="300"></canvas>
+									<script>
+										var ctx = document.getElementById('myChart1').getContext('2d');
+										var myChart1 = new Chart(ctx, {
 											type: 'line',
 											data: {
-												labels: ['teste', 'teste','teste','teste','teste'],
-												datasets: [{
-													label: 'Vendas de {{actual_time|date:"F"}}',
-													data: {{month_sum|safe}},
-													backgroundColor: [
-														'rgba(255, 99, 132, 0.2)',
-													],
-													borderColor: [
-														'rgba(255, 99, 132, 1)',
-													],
-													borderWidth: 4
-												}]
+												labels: [{% for total in total_day%}'Dia {{ total.day}}',{% endfor %}],
+										datasets: [{
+											label: '{{actual_time|date:'F'}}',
+											data: [{% for total in total_day%}{{total.p}},{% endfor %}],
+											backgroundColor: [
+												'rgba(255, 99, 132, 1)',
+											],
+												borderColor: [
+													'rgba(255, 99, 132, 1)',
+												],
+													borderWidth: 1
+										}]
 											},
-											options: {
-												scales: {
-													y: {
+										options: {
+											scales: {
+												yAxes: [{
+													ticks: {
 														beginAtZero: true
 													}
-												}
+												}]
 											}
+										}
 										});
-										</script>
+									</script>
 						        </div>
 					        </div><!--//app-card-body-->
 				        </div><!--//app-card-->
 			        </div><!--//col-->
+					
                     <div class="col-12 col-lg-6">		        
 				        <div class="app-card app-card-chart h-100 shadow-sm">
 					        <div class="app-card-header p-3 border-0">
@@ -159,7 +161,46 @@
 					        </div><!--//app-card-header-->
 					        <div class="app-card-body p-4">					   
 						        <div class="chart-container">
-				                    <canvas id="chart-pie" ></canvas>
+				                    <canvas id="chartPie" width="400" height="300"></canvas>
+									<script>
+										var ctx = document.getElementById('chartPie').getContext('2d');
+										var myChart = new Chart(ctx, {
+											type: 'pie',
+											data: {
+												labels: [{% for item in sale_list %} '{{ item.name }}', {% endfor %}],
+										datasets: [{
+											label: 'Produtos',
+											data: [{% for item in sale_list %} '{{ item.quantity }}', {% endfor %}],
+											 backgroundColor: [
+													'rgba(255, 99, 132, 1)',
+													'rgba(54, 162, 235, 1)',
+													'rgba(255, 206, 86, 1)',
+													'rgba(75, 192, 192, 1)',
+													'rgba(153, 102, 255, 1)',
+													'rgba(255, 159, 64, 1)'
+												],
+													borderColor: [
+														'rgba(255, 99, 132, 1)',
+														'rgba(54, 162, 235, 1)',
+														'rgba(255, 206, 86, 1)',
+														'rgba(75, 192, 192, 1)',
+														'rgba(153, 102, 255, 1)',
+														'rgba(255, 159, 64, 1)'
+													],
+													borderWidth: 1
+										}]
+											},
+										options: {
+											scales: {
+												yAxes: [{
+													ticks: {
+														beginAtZero: true
+													}
+												}]
+											}
+										}
+										});
+									</script>
 						        </div>
 					        </div><!--//app-card-body-->
 				        </div><!--//app-card-->
@@ -169,71 +210,6 @@
 	    </div><!--//app-content-->	    
     </div><!--//app-wrapper-->  
 
-<div class="row col-10">
-<div class="row ">
-    <ul>
-        <li>Ticket médio : R$ ={{ average }}</li>
-        <li>Média de desconto : R$ = {{ disc_average|floatformat:2 }}</li>
-        <li>Preço mais alto : R$ ={{max}} </li>
-        <li>Preço mais baixo : R$ = {{min}}</li>  
-        <li>Número de pedidos : R$ = {{count}}</li> 
-        <li>Número de pedidos (com NF-e): R$ = {{count_nfe}}</li>                
-    </ul>
-    <div class="col-md-6 my-4"> 
-        <div class="bg-white">
-            <div class="card-body">            
-                
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 my-4">
-        <div class="bg-white">
-            <div class="card-body">
-                <canvas id="myChart" width="400" height="300"></canvas>
-                <script>
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: [{% for order in order %} '{{order.sale}}',{% endfor %}],
-                    datasets: [{
-                        label: 'Orders',
-                        data: [{% for order in order %} {{ order.order_quantity }}, {% endfor %}],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                                borderWidth: 1
-                    }]
-                        },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
          
 
 {% endblock content %}
