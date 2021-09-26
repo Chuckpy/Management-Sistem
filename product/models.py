@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
 
+
+
 class AvailableManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_available=True)
@@ -36,18 +38,17 @@ class Product(models.Model):
     reference_code = models.IntegerField('Código de Referência')
     internal_code=models.IntegerField('Código Interno', null=True)
     price = models.DecimalField('Preço',max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField('Quantidade', default=0)
     image = models.ImageField('Imagem', upload_to="products/%Y/%m/%d", blank=True)
-    weight = models.DecimalField('Peso', default=0, blank=True, max_digits=10, decimal_places=3)
+    # TODO weight = models.DecimalField('Peso', default=0, blank=True, max_digits=10, decimal_places=3)
     is_available = models.BooleanField('Disponivel', default=True)
 
-    available = AvailableManager()
+    # available = AvailableManager()
     
     def __str__(self):
         return f'{self.name}-{self.pk}'
     
     def get_absolute_url(self):
-        return reverse("products:detail", kwargs={"slug": self.slug})
+        return reverse("product:detail", kwargs={"slug": self.slug})
             
     class Meta :
         verbose_name = "Produto"
