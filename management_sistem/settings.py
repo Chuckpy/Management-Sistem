@@ -118,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-BR'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bahia'
 
 USE_I18N = True
 
@@ -129,6 +129,7 @@ USE_TZ = True
 
 # User :
 LOGIN_REDIRECT_URL = ("../")
+LOGOUT_REDIRECT_URL = ("/")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

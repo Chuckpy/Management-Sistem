@@ -14,7 +14,7 @@ def register(request):
             # TODO :
             # group = Group.objects.get(name='Customers')
             # user.groups.add(group)
-            return redirect('user-login')
+            return redirect('user:login')
     else:
         form = CreateUserForm()
     context = {

@@ -4,8 +4,9 @@ from django.views.generic import ListView, DetailView
 from .models import Sale
 
 class SaleListView(ListView):
+    
     model = Sale
-    paginated_by = 10
+    paginate_by = 9
     template_name= 'order/sale_list.html'
     
     def ger_context_data(self, **kwargs):

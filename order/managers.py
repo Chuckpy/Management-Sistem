@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models import Count, Sum , Max, Avg, Min
-import datetime
+from product.models import Product
 
+import datetime
 
 class SaleManager(models.Manager):
     
@@ -24,16 +25,9 @@ class SaleManager(models.Manager):
         return self.all().aggregate(Sum('price'))['price__sum']
     def actual_time(self):
         now = datetime.datetime.now()
-        return now  
+        return now     
+    
     # TODO :
     # def percent(self):
     #     pass  
     
-    # def month_sum(self): #TODO : cada dia somar o valor de cada dia até completar o mês
-    #     month = datetime.datetime.now().month
-    #     s=self.all().filter(date__month=month)
-    #     f=[]
-    #     for sale in s:
-    #         total = float(sale.price)
-    #         f.append(total)
-    #     return f

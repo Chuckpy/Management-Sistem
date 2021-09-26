@@ -43,8 +43,8 @@ class Sale(models.Model):
     
     def products(self):
         products = self.saleitens_set.all()
-        return products 
-    
+        return products     
+   
     class Meta :
         permissions = (
             ('nfe_change', 'Usuário pode alterar parâmetro NF-e'),
@@ -83,6 +83,8 @@ class Order(models.Model):
     class Meta :
         verbose_name = "Ordem"
         verbose_name_plural = "Ordens"
+        
+        
         
 @receiver(post_save, sender=SaleItens)
 def update_sale_price(sender, instance,**kwargs):
