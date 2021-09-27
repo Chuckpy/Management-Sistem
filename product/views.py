@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
+from django.contrib import messages
 
 # Create your views here.
 
@@ -48,10 +49,22 @@ class ProductDetailView(DetailView):
         context= super().get_context_data(**kwargs)
         return context
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(UpdateView):    
     model = Product
     fields = ['name', 'category','description', 'reference_code', 'price', 'image',]
     template_name_suffix = '_edit'
+    
+    def post(self, request, *args, **kwargs):
+        """
+        Handle POST requests: instantiate a form instance with the passed
+        POST variables and then check if it's valid.
+        """
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(request, 'Produto atualizado com sucesso.') 
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
     
     # def get_object(self):
     #     return Product.objects.get(pk=self.request.GET.get('pk')) 
