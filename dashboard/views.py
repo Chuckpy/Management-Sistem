@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from order.models import Sale, SaleItens
+from order.models import Sale, SaleItem
 from django.contrib.auth.decorators import login_required
 
 
@@ -19,7 +19,7 @@ class DashboardView(View):
         # Total preço por data
         total_day = Sale.objects.raw("SELECT id, Sum (price) as p, date, STRFTIME('%%m',date) as month, STRFTIME('%%d',date) as day, STRFTIME('%%Y',date) as year from order_sale GROUP BY year, month, day")        
         # Total itens vendidos por produto
-        sale_itens= SaleItens.objects.raw("SELECT itens.id, product_id, name, Sum(quantity) as quantity FROM order_saleitens as itens INNER JOIN product_product as product on itens.product_id = product.id GROUP BY product_id ORDER BY quantity DESC LIMIT 5")
+        sale_itens= SaleItem.objects.raw("SELECT itens.id, product_id, name, Sum(quantity) as quantity FROM order_saleitem as itens INNER JOIN product_product as product on itens.product_id = product.id GROUP BY product_id ORDER BY quantity DESC LIMIT 5")
         
    
         return render(request, 'dashboard/index.html', {'average': sale_average, 
