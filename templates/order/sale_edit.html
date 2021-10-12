@@ -1,0 +1,62 @@
+{% extends "base.html"%}
+{% block title %}Nova Ordem de Venda {% endblock title%}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="app-wrapper">	    
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+            <h1 class="app-page-title">Cabeçalho Venda {{ sale_obj.reference_code }} </h1>
+            <h5> Preço {{ sale_obj.price }}</h5>
+            <form method="POST" action='{% url 'order:new' %}'>
+            {% csrf_token %}
+                <label for='reference_code'>Código de Referência</label><br>
+                <input type='text' class='form-control'name='reference_code' value="{{reference_code}}" placeholder='9999'>
+                <label for='customer'>Cliente</label><br>
+                <input type='text' class='form-control'name='customer' value='{{customer}}' placeholder='Só números'>
+                <label for='discount'>Desconto</label><br>
+                <input type='number' class='form-control'name='discount' value='{{discount}}' placeholder='0,00'>
+                <input type="hidden" name="sale_id" value='{{sale_obj.id}}'>
+                <input class="btn btn-primary"type="submit" value="Criar">
+            </form>
+            {% if sale_obj %}
+                <h4>Adicionar Produtos </h4>
+                <form action='{% url 'order:add_product' sale_obj.id %}' method='POST'>
+                    {% csrf_token %}
+                    <label for='product_id'>Id do Produto</label><br>
+                    <input type='text' class='form-control'name='product_id' value="{{product_id}}" placeholder='9999'>
+                    <label for='quantity'>Quantidade</label><br>
+                    <input type='number' class='form-control'name='quantity' value="{{quantity}}" placeholder='1~99'>
+                    <label for='discount'>Desconto</label><br>
+                    <input type='number' class='form-control'name='discount' value="{{discount}}" placeholder='0'> 
+                    <button class="btn btn-primary" type="submit">Incluir</button>
+                </form>
+                <h2>Listagem de Itens :</h2>
+                <table class="table">
+                    <thread>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Desconto</th>
+                        </tr>
+                    </thread>
+                    <tbody>
+                    {% for item in itens %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.discount }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div><!--//container-fluid-->
+    </div><!--//app-content-->	    
+</div><!--//app-wrapper-->  
+
+{% endblock content%}

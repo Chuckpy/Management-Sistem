@@ -10,7 +10,7 @@
 			    
 			    <div class="row g-3 mb-4 align-items-center justify-content-between">
 				    <div class="col-auto">
-			            <h1 class="app-page-title mb-0">Ordens de Venda </h1>
+			            <h1 class="app-page-title mb-0">Ordens de Venda<a class='btn btn-primary' href='{% url 'order:new'%}'>Nova Venda</a> </h1>
 				    </div>
 				    <div class="col-auto">
 					     <div class="page-utilities">
@@ -54,9 +54,9 @@
 												<td class="cell"><span>{{sale.date|date:"d D M"}}</span></td>
 												<td class="cell"><span class="badge bg-success">Pago</span></td>
 												<td class="cell">${{sale.price}}</td>
-												<td class="cell"><a class="btn-sm app-btn-secondary" href="{{sale.get_absolute_url}}">View</a></td>
+												<td class="cell"><a class="btn-sm app-btn-secondary" href="{{sale.get_absolute_url}}">Detalhes</a></td>												
 											</tr>
-                                            {%empty %}
+                                            	{% empty %}
                                             <h1> Não existem ordens de venda ainda </h1>
                                             {% endfor %}		
 										</tbody>

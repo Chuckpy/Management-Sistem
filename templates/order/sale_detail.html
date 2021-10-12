@@ -10,6 +10,10 @@
 
                 <div class="row g-3 mb-4 align-items-center justify-content-between">                                     
                     <div class="app-page-title mb-0">Venda - {{sale.reference_code}} Resumo :</div>
+					<div class='row col-2'>
+						<a  class='btn btn-primary 'href='{% url 'order:edit' sale.id%}'>Editar</a>
+						<a class='btn btn-danger' href='{% url 'order:delete' sale.id%}'>Excluir</a>
+					</div>
                 <div class="row g-4 mb-4">
                     <div class="col-6 col-lg-3">
 					    <div class="app-card app-card-stat shadow-sm h-100">

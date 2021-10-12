@@ -1,15 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View
 
 from user.models import User
-from .forms import SaleForm,ProductForm
-from .models import Sale, SaleItens, Product
+from .forms import SaleForm, ProductForm
+from .models import Sale, SaleItem, Product
 
 class SaleListView(ListView):
     
     model = Sale
-    paginate_by = 9
-    template_name= 'order/sale_list.html'
+    paginate_by = 15
+    template_name= 'order/sale_list.html'    
     
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
@@ -47,7 +47,7 @@ class SaleCreateView(View):
             sale = Sale.objects.create(
                 reference_code=data['reference_code'],discount=data['discount'], customer= User.objects.get(id=data['customer'])
             )
-            itens = sale.saleitens_set.all()
+            itens = sale.saleitem_set.all()
             data['sale_obj']=sale
             data['itens']=itens
 
@@ -61,7 +61,7 @@ class SaleProductAdd(View):
 
     def post(self, request, sale):
         data={}
-        item = SaleItens.objects.create(
+        item = SaleItem.objects.create(
             product=Product.objects.get(id=request.POST['product_id']),quantity=request.POST['quantity'],
             discount=request.POST['discount'], sale=Sale.objects.get(id=sale)
         )
@@ -71,6 +71,31 @@ class SaleProductAdd(View):
         data['discount']=item.sale.discount
         data['sale_id']=item.sale.id
         data['sale_obj']=item.sale
-        data['itens']=item.sale.saleitens_set.all()
+        data['itens']=item.sale.saleitem_set.all()
 
         return render(request, 'order/sale_form.html', data)
+
+class SaleEditView(View):
+    
+    def get(self, request, sale):
+        data= {}
+        sale= Sale.objects.get(id=sale)
+        data['form_item']= ProductForm()        
+        data['reference_code']=sale.reference_code
+        data['discount']=sale.discount
+        data['sale_id']=sale.id
+        data['sale_obj']=sale
+        data['itens']=sale.saleitem_set.all()
+        
+        return render(request, 'order/sale_edit.html', data)
+    
+class SaleDeleteView(View):
+    
+    def get (self, request,sale):
+        sale = Sale.objects.get(id=sale)        
+        return render(request, 'order/sale_delete.html', {'sale':sale})
+        
+    def post (self, request,sale):
+        sale = Sale.objects.get(id=sale)
+        sale.delete()
+        return redirect('order:list')

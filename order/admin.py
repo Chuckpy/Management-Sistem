@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Order, Sale, SaleItens
+from .models import Order, Sale, SaleItem
 from .actions import nfe_nao_emitida, nfe_emitida
 
 class SaleItemInLine(admin.TabularInline):
-    model = SaleItens
+    model = SaleItem
 
 class OrderAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -28,7 +28,7 @@ class SaleAdmin(admin.ModelAdmin):
     # filter_horizontal = ('product',)
     autocomplete_fields = ('customer',)
 
-class SaleItensAdmin(admin.ModelAdmin):
+class SaleItemAdmin(admin.ModelAdmin):
     list_display = ('sale', 'product', 'quantity', 'discount')
     search_fields = ('sale', 'product')
     autocomplete_fields = ('sale', 'product')
@@ -37,4 +37,4 @@ class SaleItensAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Sale, SaleAdmin)
-admin.site.register(SaleItens, SaleItensAdmin)
+admin.site.register(SaleItem, SaleItemAdmin)
