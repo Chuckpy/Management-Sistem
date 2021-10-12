@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Meus apps :
     # 'pages.apps.PagesConfig',
-    'task.apps.TaskConfig',
     'user.apps.UserConfig',
     'product.apps.ProductConfig',
     'order.apps.OrderConfig',    
