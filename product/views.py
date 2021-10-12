@@ -71,7 +71,7 @@ class ProductUpdateView(UpdateView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ['name', 'category', 'description', 'reference_code', 'price', 'image', 'weight']
+    fields = ['name', 'category', 'description', 'reference_code', 'price', 'image']
     
     
 # TODO : @login_required(login_url='user-login')
