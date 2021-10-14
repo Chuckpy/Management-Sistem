@@ -39,12 +39,13 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     # Django apps :
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',    
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',    
-    # Apps de terceiros :
+    # Apps de terceiros :    
+    'grappelli',
     'crispy_forms',
     'debug_toolbar',
     
@@ -156,4 +157,4 @@ INTERNAL_IPS = [
     
 # Cart
 
-CART_ITEM_MAX_QUANTITY = 10
+# CART_ITEM_MAX_QUANTITY = 10
