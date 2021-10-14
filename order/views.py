@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View
 
 from user.models import User
-from .forms import SaleForm, ProductForm
+from .forms import SaleForm, ProductForm, SaleItemModelForm
 from .models import Sale, SaleItem, Product
 
 class SaleListView(ListView):
@@ -60,16 +60,27 @@ class SaleProductAdd(View):
 
 
     def post(self, request, sale):
+        
         data={}
-        item = SaleItem.objects.create(
-            product=Product.objects.get(id=request.POST['product_id']),quantity=request.POST['quantity'],
-            discount=request.POST['discount'], sale=Sale.objects.get(id=sale)
-        )
+        
+        item = SaleItem.objects.filter(
+            product=Product.objects.get(id=request.POST['product_id']),
+            sale=Sale.objects.get(id=sale))
+                
+        if item.exists() :
+            data['message']='Item ja incluido no pedido, favor editar'
+            item = item[0]
+        else :                
+            item = SaleItem.objects.create(
+                product=Product.objects.get(id=request.POST['product_id']),quantity=request.POST['quantity'],
+                discount=request.POST['discount'], sale=Sale.objects.get(id=sale)
+            )
+            
         data['item']=item
         data['form_item']=ProductForm()
         data['reference_code']=item.sale.reference_code
         data['discount']=item.sale.discount
-        data['sale_id']=item.sale.id
+        data['sale_id']=item.sale.id            
         data['sale_obj']=item.sale
         data['itens']=item.sale.saleitem_set.all()
 
@@ -99,3 +110,35 @@ class SaleDeleteView(View):
         sale = Sale.objects.get(id=sale)
         sale.delete()
         return redirect('order:list')
+
+class ProductDeleteView(View):
+    
+    def get (self, request,item):
+        sale_item = SaleItem.objects.get(id=item)
+        return render(request, 'order/delete-product.html', {'sale_item':sale_item})
+    
+    def post (self, request, item):
+        sale_item = SaleItem.objects.get(id=item)
+        sale_id = sale_item.sale.id
+        sale_item.delete()
+        request.method= 'GET'
+        return redirect('order:edit', sale=sale_id)
+    
+class EditProductView(View):
+    
+    def get (self, request, item):
+        sale_item = SaleItem.objects.get(id=item)
+        form = SaleItemModelForm(instance=sale_item)
+        
+        return render(request, 'order/edit_product.html', {'sale_item':sale_item, 'form': form})
+    
+    def post (self, request, item):
+        sale_item = SaleItem.objects.get(id=item)
+        sale_item.quantity = request.POST['quantity']
+        sale_item.discount = request.POST['discount']
+        sale_item.sale = Sale.objects.get(id=request.POST['sale'])
+        sale_item.product = Product.objects.get(id=request.POST['product'])       
+        sale_item.save()
+        sale_id= sale_item.sale.id
+         
+        return redirect('order:edit', sale=sale_id)

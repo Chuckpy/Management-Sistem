@@ -8,8 +8,14 @@
 <div class="app-wrapper">	    
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="container-xl">
+        {% if message %}
+            {% include 'messages/order_message.html' %}
+        {% endif %}
+
             <h1 class="app-page-title">Cabeçalho Venda {{ sale_obj.reference_code }} </h1>
             <h5> Preço {{ sale_obj.price }}</h5>
+            <h5> Desconto {{ sale_obj.discount }}</h5>
+
             <form method="POST" action='{% url 'order:new' %}'>
             {% csrf_token %}
                 <label for='reference_code'>Código de Referência</label><br>
@@ -21,6 +27,7 @@
                 <input type="hidden" name="sale_id" value='{{sale_obj.id}}'>
                 <input class="btn btn-primary"type="submit" value="Criar">
             </form>
+
             {% if sale_obj %}
                 <h4>Adicionar Produtos </h4>
                 <form action='{% url 'order:add_product' sale_obj.id %}' method='POST'>
@@ -41,6 +48,8 @@
                             <th scope="col">Nome</th>
                             <th scope="col">Quantidade</th>
                             <th scope="col">Desconto</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Excluir</th>
                         </tr>
                     </thread>
                     <tbody>
@@ -50,6 +59,8 @@
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.discount }}</td>
+                            <td><a class='btn btn-secondary ' href='{% url 'order:edit_product' item.id %}'>Editar</a></td>
+                            <td><a class='btn btn-danger ' href='{% url 'order:delete_product' item.id %}'>Excluir</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

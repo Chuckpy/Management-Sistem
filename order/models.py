@@ -28,7 +28,7 @@ class Sale(models.Model):
     objects= SaleManager()
     
     def __str__(self):
-        return f'Venda - {self.customer} - {self.id}'
+        return f'Venda - {self.id}'
     
     def get_absolute_url(self):
         return reverse("order:detail", kwargs={"slug": self.slug})
@@ -59,7 +59,7 @@ class SaleItem(models.Model):
     discount = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     
     def __str__(self):
-        return f'{self.sale.reference_code} - {self.product.name}'
+        return f'{self.product.name} - {self.sale.id}'
     
     class Meta :
         verbose_name = 'Item da Venda'

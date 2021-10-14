@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+
+<div class="app-wrapper">	    
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+            <div class="row col-10">
+                <div class="row my-4">
+                    <h1> Editando item {{ sale_item }}</h1>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </form>
+                 </div>
+            </div>
+        </div><!--//container-fluid-->
+    </div><!--//app-content-->	    
+</div><!--//app-wrapper--> 
+
+{% endblock content%}

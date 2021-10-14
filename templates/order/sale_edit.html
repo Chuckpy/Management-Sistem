@@ -41,6 +41,8 @@
                             <th scope="col">Nome</th>
                             <th scope="col">Quantidade</th>
                             <th scope="col">Desconto</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Excluir</th>
                         </tr>
                     </thread>
                     <tbody>
@@ -50,6 +52,8 @@
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.discount }}</td>
+                            <td><a class='btn btn-secondary ' href='{% url 'order:edit_product' item.id %}'>Editar</a></td>
+                            <td><a class='btn btn-danger ' href='{% url 'order:delete_product' item.id %}'>Excluir</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
