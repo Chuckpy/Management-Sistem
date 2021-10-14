@@ -19,13 +19,17 @@ def products(request):
     customer_count = customer.count()
     order = Order.objects.all()
     order_count = order.count()
-    product_quantity = Product.objects.filter(name='')
+    # Pesquisa por nome '''Não funciona caso não haja busca'''
+    search = request.GET.get('search', None)
+    if search :
+        product = product.filter(name__icontains=search)|product.filter(id=search)
+        
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
             product_name = form.cleaned_data.get('name')
-            messages.success(request, f'{product_name} has been added')
+            messages.success(request, f'{product.name} Foi adicionado')
             return redirect('product:home')
     else:
         form = ProductForm()
@@ -36,6 +40,8 @@ def products(request):
         'product_count': product_count,
         'order_count': order_count,
     }
+    
+    
     return render(request, 'product/products.html', context)
 
 
